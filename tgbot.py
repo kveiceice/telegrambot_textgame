@@ -36,3 +36,14 @@ async def handle_message(update: Update, context: CallbackContext):
     else:
         await update.message.reply_text('Пожалуйста, выберите один из вариантов:')
         await send_story_node(update, current_node_key, context)
+
+
+
+
+if __name__ == '__main__':
+    app = ApplicationBuilder().token('8408472505:AAHomRYQ-2lEKRvw3RC5oTAwMEjcsDpu99g').build()
+
+    app.add_handler(CommandHandler('start', start))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+
+    app.run_polling()
