@@ -28,7 +28,6 @@ async def handle_message(update: Update, context: CallbackContext):
         if user_input == opt['text']:
             matched_option = key
             break
-
     if matched_option:
         next_node_key = options[matched_option]['next']
         context.user_data['current_story'] = next_node_key
