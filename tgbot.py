@@ -37,7 +37,20 @@ async def handle_message(update: Update, context: CallbackContext):
         await update.message.reply_text('Пожалуйста, выберите один из вариантов:')
         await send_story_node(update, current_node_key, context)
 
+async def send_story_node(update: Update, node_key: str, context: CallbackContext):
+    node = story[node_key]
+    text = node['text']
 
+    await update.message.reply_text(text)
+
+    if 'end' in node and node['end']:
+        return
+
+    options = node['options']
+    keyboard = [[opt['text']] for opt in options.values()]
+    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
+    await update.message.reply_text("Выберите вариант:", reply_markup=reply_markup)
 
 
 if __name__ == '__main__':
