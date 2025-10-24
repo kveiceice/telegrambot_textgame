@@ -82,7 +82,7 @@
     "options": {
       "1": {
         "text": "Взять посох",
-        "next": "wizrd"
+        "next": "wizard"
       }
     }
   },
