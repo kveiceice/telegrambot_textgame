@@ -12,8 +12,9 @@ async def start(update: Update, context: CallbackContext):
         "Добро пожаловать в интерактивную историю!\n\n"
         "Здесь вы будете проходить различные выборы и влиять на развитие сюжета.\n"
     )
+    
     character_initialization = (
-        "Вы - искатель приключений себе на 5 точку."
+        "Вы — искатель приключений. Перед вами раскинулся загадочный лес, полный тайн и опасностей. Решите — идти навстречу неизвестности или обходить стороной. Ваша судьба начинается сейчас."
     )
     await update.message.reply_text(intro_message)
     await update.message.reply_text(character_initialization)
