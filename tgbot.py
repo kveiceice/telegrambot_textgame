@@ -2,24 +2,39 @@ import json
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, CallbackContext
 
+# Загружаем сценарий из файла story.json
 with open('story.json', 'r', encoding='utf-8') as f:
     story = json.load(f)
 
+# Обработка команды /start
 async def start(update: Update, context: CallbackContext):
+    intro_message = (
+        "Добро пожаловать в интерактивную историю!\n\n"
+        "Здесь вы будете проходить различные выборы и влиять на развитие сюжета.\n"
+    )
+    character_initialization = (
+        "Вы - искатель приключений себе на 5 точку."
+    )
+    await update.message.reply_text(intro_message)
+    await update.message.reply_text(character_initialization)
+
+    # Инициализация текущего узла истории на 'start'
     context.user_data['current_story'] = 'start'
+    # Немедленно запускаем первую сцену истории
     await send_story_node(update, 'start', context)
 
+# Обработка сообщений пользователя для выбора вариантов
 async def handle_message(update: Update, context: CallbackContext):
     user_input = update.message.text.strip()
     current_node_key = context.user_data.get('current_story')
 
     if not current_node_key:
-        await update.message.reply_text('Пожалуйста, начните игру командой /start')
+        await update.message.reply_text('Пожалуйста, начните игру командой /start.')
         return
 
     current_node = story.get(current_node_key)
     if not current_node or ('end' in current_node and current_node['end']):
-        await update.message.reply_text('Пожалуйста, начните игру командой /start')
+        await update.message.reply_text('История завершена или произошла ошибка. Нажмите /start для повторного начала.')
         return
 
     options = current_node['options']
@@ -28,20 +43,23 @@ async def handle_message(update: Update, context: CallbackContext):
         if user_input == opt['text']:
             matched_option = key
             break
+
     if matched_option:
         next_node_key = options[matched_option]['next']
         context.user_data['current_story'] = next_node_key
         await send_story_node(update, next_node_key, context)
     else:
-        await update.message.reply_text('Пожалуйста, выберите один из вариантов:')
+        await update.message.reply_text('Пожалуйста, выберите один из предложенных вариантов.')
         await send_story_node(update, current_node_key, context)
 
+# Отправка текущего узла истории
 async def send_story_node(update: Update, node_key: str, context: CallbackContext):
     node = story[node_key]
     text = node['text']
 
     await update.message.reply_text(text)
 
+    # Если это конечный узел
     if 'end' in node and node['end']:
         return
 
@@ -51,9 +69,11 @@ async def send_story_node(update: Update, node_key: str, context: CallbackContex
 
     await update.message.reply_text("Выберите вариант:", reply_markup=reply_markup)
 
-
+# Основная функция запуска бота
 if __name__ == '__main__':
-    app = ApplicationBuilder().token('8408472505:AAHomRYQ-2lEKRvw3RC5oTAwMEjcsDpu99g').build()
+    # Замените <TOKEN> на ваш токен бота
+    TOKEN = '8408472505:AAHomRYQ-2lEKRvw3RC5oTAwMEjcsDpu99g'
+    app = ApplicationBuilder().token(TOKEN).build()
 
     app.add_handler(CommandHandler('start', start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
