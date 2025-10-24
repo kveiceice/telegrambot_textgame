@@ -1,6 +1,10 @@
 import json
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, CallbackContext
+from dotenv import load_dotenv
+import os
+
+
 
 with open('story.json', 'r', encoding='utf-8') as f:
     story = json.load(f)
@@ -63,7 +67,8 @@ async def send_story_node(update: Update, node_key: str, context: CallbackContex
     await update.message.reply_text("Выберите вариант:", reply_markup=reply_markup)
 
 if __name__ == '__main__':
-    TOKEN = '8408472505:AAHomRYQ-2lEKRvw3RC5oTAwMEjcsDpu99g'
+    load_dotenv()
+    TOKEN = os.getenv("BOT_TOKEN")
     app = ApplicationBuilder().token(TOKEN).build()
 
     app.add_handler(CommandHandler('start', start))
