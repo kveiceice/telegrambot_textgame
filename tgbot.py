@@ -3,11 +3,6 @@ from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, CallbackContext
 from dotenv import load_dotenv
 import os
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 47d81141781cfbd7fa22758e7f4845b7ed120655
 
 with open('story.json', 'r', encoding='utf-8') as f:
     story = json.load(f)
