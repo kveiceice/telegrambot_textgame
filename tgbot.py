@@ -4,8 +4,6 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
 from dotenv import load_dotenv
 import os
 
-
-
 with open('story.json', 'r', encoding='utf-8') as f:
     story = json.load(f)
 
