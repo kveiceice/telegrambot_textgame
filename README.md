@@ -5,5 +5,5 @@ pip install python-dotenv
 pip install python-telegram-bot     
 а так же создать у себя в папке файл .env  засунуть туда в переменную BOT_TOKEN = '' свой токен бота    
 В планах так же добавление картинок для более интересного сюжета и погружения.
-Сам бот(если он будет работать) - @textt_game_bot
+Сам бот(если он будет работать) - @textt_game_bot.  
 ссылка на работу бота - https://drive.google.com/file/d/1d-U3zj5ZUA1EyY_SaPspwGNPKGtvfrI9/view?usp=sharing
